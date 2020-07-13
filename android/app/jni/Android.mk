@@ -9,7 +9,9 @@ LOCAL_ARM_MODE := arm
 
 LOCAL_C_INCLUDES := \
 $(SOURCE_DIR) \
-$(SOURCE_DIR)/libyuv/include
+$(SOURCE_DIR)/libyuv/include \
+$(SOURCE_DIR)/opus/include \
+$(SOURCE_DIR)/opus
 
 LOCAL_SRC_FILES := \
 $(SOURCE_DIR)/media.cpp \

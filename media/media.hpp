@@ -9,6 +9,8 @@
 #define MEDIA_END }
 
 #include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 MEDIA_BEGIN
 
