@@ -8,7 +8,7 @@ LOCAL_CFLAGS += -DOPUS_BUILD -DFIXED_POINT -DUSE_ALLOCA -DHAVE_LRINT -DHAVE_LRIN
 
 LOCAL_C_INCLUDES := \
 $(LOCAL_PATH)/../ \
-$(LOCAL_PATH)/../include \
+$(LOCAL_PATH)/../libopus/include \
 $(LOCAL_PATH)/../celt \
 $(LOCAL_PATH)/fixed
 

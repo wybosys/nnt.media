@@ -26,31 +26,12 @@ $(SILK_FIXED_DIR) \
 $(CELT_DIR) \
 $(OFILE_DIR)
 
-OPUS_SRCS := \
-$(OPUS_SRC)/opus.c \
-$(OPUS_SRC)/opus_decoder.c \
-$(OPUS_SRC)/opus_encoder.c \
-$(OPUS_SRC)/opus_multistream.c \
-$(OPUS_SRC)/opus_multistream_encoder.c \
-$(OPUS_SRC)/opus_multistream_decoder.c \
-$(OPUS_SRC)/repacketizer.c \
-$(OPUS_SRC)/analysis.c \
-$(OPUS_SRC)/mlp.c \
-$(OPUS_SRC)/mlp_data.c
-
-LOCAL_SRC_FILES := \
-$(OPUS_SRCS) \
-$(SILK_SRCS) \
-$(SILK_FIXED_SRCS) \
-$(CELT_SRCS) \
-$(OGG_SRCS) \
-$(OFILE_SRCS)
-
-LOCAL_STATIC_LIBRARIES += celt ogg opusfile silk
+LOCAL_STATIC_LIBRARIES += libopus celt ogg opusfile silk
 
 include $(BUILD_STATIC_LIBRARY)
 
 $(call import-module, opus/celt)
 $(call import-module, opus/ogg)
+$(call import-module, opus/libopus)
 $(call import-module, opus/opusfile)
 $(call import-module, opus/silk)
