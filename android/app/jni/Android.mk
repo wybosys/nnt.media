@@ -10,8 +10,10 @@ LOCAL_ARM_MODE := arm
 LOCAL_SRC_FILES := \
 $(SOURCE_DIR)/media.cpp
 
-LOCAL_STATIC_LIBRARIES += libjpeg_static
+# LOCAL_STATIC_LIBRARIES += libjpeg_static
+LOCAL_STATIC_LIBRARIES += jpeg-9d
 
 include $(BUILD_SHARED_LIBRARY)
 
-$(call import-module, libjpeg)
+# $(call import-module, libjpeg)
+$(call import-module, jpeg-9d)
