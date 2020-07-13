@@ -18,4 +18,6 @@ gradlew.bat
 .idea
 .vs
 .settings
-.project
+.projectlibs
+obj
+libs

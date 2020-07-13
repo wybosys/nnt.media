@@ -1,6 +1,13 @@
 LOCAL_PATH := $(call my-dir)
 
-SOURCE_DIR := $(LOCAL_PATH)/
+PROJECT_DIR := $(LOCAL_PATH)/../../..
+SOURCE_DIR := $(PROJECT_DIR)/media
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := media
+LOCAL_ARM_MODE := arm
+
+LOCAL_SRC_FILES := \
+$(SOURCE_DIR)/media.cpp
+
+include $(BUILD_SHARED_LIBRARY)
