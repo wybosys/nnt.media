@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <ogg/ogg.h>
 #include <opus.h>
+#include <opusfile/opusfile.h>
 
 MEDIA_BEGIN
 
@@ -543,6 +544,128 @@ int WriteFrame(uint8_t* framePcmBytes, unsigned int frameByteCount)
     }
 
     return 1;
+}
+
+// ----------------------------------------- player
+OggOpusFile* _opusFile;
+
+int _isSeekable = 0;
+
+int64_t _totalPcmDuration = 0;
+
+int64_t _currentPcmOffset = 0;
+
+int _finished = 0;
+
+static const int playerBuffersCount = 3;
+
+static const int playerSampleRate = 48000;
+
+void CleanupPlayer()
+{
+    if (_opusFile)
+    {
+        op_free(_opusFile);
+        _opusFile = 0;
+    }
+    _isSeekable = 0;
+    _totalPcmDuration = 0;
+    _currentPcmOffset = 0;
+    _finished = 0;
+}
+
+int SeekPlayer(float position)
+{
+    if (!_opusFile || !_isSeekable || position < 0)
+    {
+        return 0;
+    }
+    int result = op_pcm_seek(_opusFile, (ogg_int64_t)(position * _totalPcmDuration));
+    if (result != OPUS_OK)
+    {
+        return -1;
+    }
+    ogg_int64_t pcmPosition = op_pcm_tell(_opusFile);
+    _currentPcmOffset = pcmPosition;
+    return result == OPUS_OK;
+}
+
+extern int InitPlayer(const char* path)
+{
+    CleanupPlayer();
+
+    int openError = OPUS_OK;
+    _opusFile = op_open_file(path, &openError);
+    if (!_opusFile || openError != OPUS_OK)
+    {
+        CleanupPlayer();
+        return 0;
+    }
+
+    _isSeekable = op_seekable(_opusFile);
+    _totalPcmDuration = op_pcm_total(_opusFile, -1);
+
+    return 1;
+}
+
+void FillBuffer(uint8_t* buffer, int capacity, int* args)
+{
+    if (_opusFile)
+    {
+        args[1] = ::std::max<int>(0, op_pcm_tell(_opusFile));
+
+        if (_finished)
+        {
+            args[0] = 0;
+            args[1] = 0;
+            args[2] = 1;
+            return;
+        }
+        else
+        {
+            int writtenOutputBytes = 0;
+            int endOfFileReached = 0;
+
+            while (writtenOutputBytes < capacity)
+            {
+                int readSamples = op_read(_opusFile,
+                    (opus_int16 * )(buffer + writtenOutputBytes),
+                    (capacity - writtenOutputBytes) / 2,
+                    NULL);
+
+                if (readSamples > 0)
+                {
+                    writtenOutputBytes += readSamples * 2;
+                }
+                else
+                {
+                    if (readSamples < 0)
+                    {
+                    }
+                    endOfFileReached = 1;
+                    break;
+                }
+            }
+
+            args[0] = writtenOutputBytes;
+
+            if (endOfFileReached || args[1] + args[0] == _totalPcmDuration)
+            {
+                _finished = 1;
+                args[2] = 1;
+            }
+            else
+            {
+                args[2] = 0;
+            }
+        }
+    }
+    else
+    {
+        memset(buffer, 0, capacity);
+        args[0] = capacity;
+        args[1] = _totalPcmDuration;
+    }
 }
 
 MEDIA_END

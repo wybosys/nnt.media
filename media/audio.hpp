@@ -71,6 +71,14 @@ extern int InitRecorder(const char* path);
 
 extern int WriteFrame(uint8_t* framePcmBytes, unsigned int frameByteCount);
 
+extern void CleanupPlayer();
+
+extern int SeekPlayer(float position);
+
+extern int InitPlayer(const char* path);
+
+extern void FillBuffer(uint8_t* buffer, int capacity, int* args);
+
 MEDIA_END
 
 #endif
