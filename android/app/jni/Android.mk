@@ -11,3 +11,5 @@ LOCAL_SRC_FILES := \
 $(SOURCE_DIR)/media.cpp
 
 include $(BUILD_SHARED_LIBRARY)
+
+$(call import-module, libjpeg)
