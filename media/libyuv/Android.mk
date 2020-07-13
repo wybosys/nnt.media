@@ -4,7 +4,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := libyuv
 LOCAL_ARM_MODE := arm
 
-LOCAL_CXXFLAGS += -DHAS_SCALEROWDOWN38_NEON -DHAS_SCALEROWDOWN34_NEON -DHAS_ARGBTORGB24ROW_NEON -DHAS_ARGBTORGB565ROW_NEON
+LOCAL_CPP_EXTENSION := .cc
 
 YUV_DIR := $(SOURCE_DIR)/libyuv
 YUV_SRC := $(YUV_DIR)/source
@@ -13,43 +13,34 @@ YUV_HEADER := $(YUV_DIR)/include
 LOCAL_C_INCLUDES := $(YUV_HEADER)
 
 LOCAL_SRC_FILES := \
-$(YUV_SRC)/compare_common.cpp \
-$(YUV_SRC)/compare_neon.cpp \
-$(YUV_SRC)/compare_posix.cpp \
-$(YUV_SRC)/compare_win.cpp \
-$(YUV_SRC)/compare.cpp \
-$(YUV_SRC)/convert_argb.cpp \
-$(YUV_SRC)/convert_from_argb.cpp \
-$(YUV_SRC)/convert_from.cpp \
-$(YUV_SRC)/convert_jpeg.cpp \
-$(YUV_SRC)/convert_to_argb.cpp \
-$(YUV_SRC)/convert_to_i420.cpp \
-$(YUV_SRC)/convert.cpp \
-$(YUV_SRC)/cpu_id.cpp \
-$(YUV_SRC)/format_conversion.cpp \
-$(YUV_SRC)/mjpeg_decoder.cpp \
-$(YUV_SRC)/mjpeg_validate.cpp \
-$(YUV_SRC)/planar_functions.cpp \
-$(YUV_SRC)/rotate_argb.cpp \
-$(YUV_SRC)/rotate_mips.cpp \
-$(YUV_SRC)/rotate_neon.cpp \
-$(YUV_SRC)/rotate_neon64.cpp \
-$(YUV_SRC)/rotate.cpp \
-$(YUV_SRC)/row_any.cpp \
-$(YUV_SRC)/row_common.cpp \
-$(YUV_SRC)/row_mips.cpp \
-$(YUV_SRC)/row_neon.cpp \
-$(YUV_SRC)/row_neon64.cpp \
-$(YUV_SRC)/row_posix.cpp \
-$(YUV_SRC)/row_win.cpp \
-$(YUV_SRC)/scale_argb.cpp \
-$(YUV_SRC)/scale_common.cpp \
-$(YUV_SRC)/scale_mips.cpp \
-$(YUV_SRC)/scale_neon.cpp \
-$(YUV_SRC)/scale_neon64.cpp \
-$(YUV_SRC)/scale_posix.cpp \
-$(YUV_SRC)/scale_win.cpp \
-$(YUV_SRC)/scale.cpp \
-$(YUV_SRC)/video_common.cpp
+    $(YUV_SRC)/compare.cc           \
+    $(YUV_SRC)/compare_common.cc    \
+    $(YUV_SRC)/compare_neon64.cc    \
+    $(YUV_SRC)/compare_gcc.cc       \
+    $(YUV_SRC)/convert.cc           \
+    $(YUV_SRC)/convert_argb.cc      \
+    $(YUV_SRC)/convert_from.cc      \
+    $(YUV_SRC)/convert_from_argb.cc \
+    $(YUV_SRC)/convert_to_argb.cc   \
+    $(YUV_SRC)/convert_to_i420.cc   \
+    $(YUV_SRC)/cpu_id.cc            \
+    $(YUV_SRC)/planar_functions.cc  \
+    $(YUV_SRC)/rotate.cc            \
+    $(YUV_SRC)/rotate_argb.cc       \
+    $(YUV_SRC)/rotate_mips.cc       \
+    $(YUV_SRC)/rotate_neon64.cc     \
+    $(YUV_SRC)/row_any.cc           \
+    $(YUV_SRC)/row_common.cc        \
+    $(YUV_SRC)/row_mips.cc          \
+    $(YUV_SRC)/row_neon64.cc        \
+    $(YUV_SRC)/row_gcc.cc	        \
+    $(YUV_SRC)/scale.cc             \
+    $(YUV_SRC)/scale_any.cc         \
+    $(YUV_SRC)/scale_argb.cc        \
+    $(YUV_SRC)/scale_common.cc      \
+    $(YUV_SRC)/scale_mips.cc        \
+    $(YUV_SRC)/scale_neon64.cc      \
+    $(YUV_SRC)/scale_gcc.cc         \
+    $(YUV_SRC)/video_common.cc
 
 include $(BUILD_STATIC_LIBRARY)
