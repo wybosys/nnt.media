@@ -8,6 +8,7 @@ LOCAL_MODULE := media
 LOCAL_ARM_MODE := arm
 
 LOCAL_C_INCLUDES := \
+$(SOURCE_DIR) \
 $(SOURCE_DIR)/libyuv/include
 
 LOCAL_SRC_FILES := \
@@ -16,7 +17,8 @@ $(SOURCE_DIR)/image.cpp \
 $(SOURCE_DIR)/audio.cpp \
 $(SOURCE_DIR)/video.cpp
 
-# LOCAL_STATIC_LIBRARIES += libjpeg_static
+LOCAL_LDLIBS += -ljnigraphics
+# LOCAL_STATIC_LIBRARIES += libjpeg_static_ndk
 LOCAL_STATIC_LIBRARIES += jpeg-9d
 LOCAL_STATIC_LIBRARIES += libyuv opus
 

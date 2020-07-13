@@ -43,4 +43,13 @@ LOCAL_SRC_FILES := \
     $(YUV_SRC)/scale_gcc.cc         \
     $(YUV_SRC)/video_common.cc
 
+ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
+    LOCAL_CFLAGS += -DLIBYUV_NEON
+    LOCAL_SRC_FILES += \
+        source/compare_neon.cc.neon    \
+        source/rotate_neon.cc.neon     \
+        source/row_neon.cc.neon        \
+        source/scale_neon.cc.neon
+endif
+
 include $(BUILD_STATIC_LIBRARY)
