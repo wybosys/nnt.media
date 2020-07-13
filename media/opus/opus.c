@@ -1,1 +1,3 @@
-static void empty() {}
+static void empty()
+{
+}

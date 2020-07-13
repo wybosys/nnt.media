@@ -22,7 +22,8 @@ $(SOURCE_DIR)/video.cpp
 LOCAL_LDLIBS += -ljnigraphics
 # LOCAL_STATIC_LIBRARIES += libjpeg_static_ndk
 LOCAL_STATIC_LIBRARIES += jpeg-9d
-LOCAL_STATIC_LIBRARIES += libyuv opus
+LOCAL_STATIC_LIBRARIES += libyuv
+LOCAL_STATIC_LIBRARIES += opus celt ogg opusfile silk
 
 include $(BUILD_SHARED_LIBRARY)
 

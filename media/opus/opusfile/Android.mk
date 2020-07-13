@@ -14,6 +14,6 @@ $(LOCAL_PATH)/internal.c \
 $(LOCAL_PATH)/opusfile.c \
 $(LOCAL_PATH)/stream.c
 
-LOCAL_STATIC_LIBRARIES += libopus
+LOCAL_STATIC_LIBRARIES += opus
 
 include $(BUILD_STATIC_LIBRARY)
