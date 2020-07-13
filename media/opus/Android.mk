@@ -6,7 +6,7 @@ LOCAL_ARM_MODE := arm
 
 LOCAL_CFLAGS := -O2 -DNULL=0 -DSOCKLEN_T=socklen_t -DLOCALE_NOT_USED -D_LARGEFILE_SOURCE=1 -D_FILE_OFFSET_BITS=64
 LOCAL_CFLAGS += -DOPUS_BUILD -DFIXED_POINT -DUSE_ALLOCA -DHAVE_LRINT -DHAVE_LRINTF
-LOCAL_CFLAGS += -DANDROID_NDK -DDISABLE_IMPORTGL -fno-strict-aliasing -fprefetch-loop-arrays -ffast-math
+LOCAL_CFLAGS += -DDISABLE_IMPORTGL -fno-strict-aliasing -fprefetch-loop-arrays -ffast-math
 
 OPUS_DIR := $(SOURCE_DIR)/opus
 OPUS_SRC := $(OPUS_DIR)/src
@@ -18,7 +18,8 @@ SILK_FIXED_DIR := $(OPUS_DIR)/silk/fixed
 OGG_DIR := $(OPUS_DIR)/ogg
 OFILE_DIR := $(OPUS_DIR)/opusfile
 
-LOCAL_C_INCLUDES := $(OPUS_HEADER) \
+LOCAL_C_INCLUDES := \
+$(OPUS_HEADER) \
 $(OPUS_DIR) \
 $(SILK_DIR) \
 $(SILK_FIXED_DIR) \
