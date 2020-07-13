@@ -1,0 +1,17 @@
+.vscode
+.idea
+.project
+.settings
+.gradle
+.classpath
+*.user
+libengine.so
+Debug.win32
+Release.win32
+Debug
+Release
+ipch
+clibs
+jniLibs
+tmp
+*.log
