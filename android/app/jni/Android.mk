@@ -7,6 +7,9 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := media
 LOCAL_ARM_MODE := arm
 
+LOCAL_C_INCLUDES := \
+$(SOURCE_DIR)/libyuv/include
+
 LOCAL_SRC_FILES := \
 $(SOURCE_DIR)/media.cpp \
 $(SOURCE_DIR)/image.cpp \

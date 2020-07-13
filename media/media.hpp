@@ -8,4 +8,12 @@
 #define MEDIA_BEGIN namespace MEDIA_NS {
 #define MEDIA_END }
 
+#include <cstdio>
+
+MEDIA_BEGIN
+
+typedef unsigned char byte;
+
+MEDIA_END
+
 #endif
