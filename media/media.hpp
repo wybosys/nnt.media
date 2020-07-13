@@ -1,0 +1,4 @@
+#ifndef __MEDIA_H_INCLUDED_H_INCLUDED
+#define __MEDIA_H_INCLUDED_H_INCLUDED
+
+#endif
