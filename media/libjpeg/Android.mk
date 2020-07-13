@@ -59,24 +59,6 @@ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)
 
 include $(BUILD_STATIC_LIBRARY)
 
-
-# Build shared library
-include $(CLEAR_VARS)
-
-LOCAL_MODULE := libjpeg
-LOCAL_WHOLE_STATIC_LIBRARIES = libjpeg_static
-
-ifeq (,$(TARGET_BUILD_APPS))
-LOCAL_SHARED_LIBRARIES := \
-    libcutils
-else
-# unbundled branch, built against NDK.
-LOCAL_SDK_VERSION := 17
-endif
-
-include $(BUILD_SHARED_LIBRARY)
-
-
 # Build static library against NDK
 include $(CLEAR_VARS)
 
@@ -135,22 +117,3 @@ LOCAL_MODULE := libjpeg_static_ndk
 LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)
 
 include $(BUILD_STATIC_LIBRARY)
-
-
-include $(CLEAR_VARS)
-LOCAL_ARM_MODE := arm
-LOCAL_SRC_FILES := \
-	cjpeg.c rdswitch.c cdjpeg.c rdtarga.c rdppm.c rdgif.c rdbmp.c
-LOCAL_MODULE:= cjpeg
-LOCAL_MODULE_TAGS := eng
-LOCAL_SHARED_LIBRARIES := libcutils libjpeg
-include $(BUILD_EXECUTABLE)
-
-include $(CLEAR_VARS)
-LOCAL_ARM_MODE := arm
-LOCAL_SRC_FILES := \
-	djpeg.c cdjpeg.c wrppm.c wrgif.c wrbmp.c rdcolmap.c wrtarga.c
-LOCAL_MODULE:= djpeg
-LOCAL_MODULE_TAGS := eng
-LOCAL_SHARED_LIBRARIES := libcutils libjpeg
-include $(BUILD_EXECUTABLE)
