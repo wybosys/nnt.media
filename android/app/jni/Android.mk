@@ -10,7 +10,8 @@ LOCAL_ARM_MODE := arm
 LOCAL_SRC_FILES := \
 $(SOURCE_DIR)/media.cpp \
 $(SOURCE_DIR)/image.cpp \
-$(SOURCE_DIR)/audio.cpp
+$(SOURCE_DIR)/audio.cpp \
+$(SOURCE_DIR)/video.cpp
 
 # LOCAL_STATIC_LIBRARIES += libjpeg_static
 LOCAL_STATIC_LIBRARIES += jpeg-9d

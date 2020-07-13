@@ -1,0 +1,8 @@
+#ifndef __MEDIA_VIDEO_H_INCLUDED
+#define __MEDIA_VIDEO_H_INCLUDED
+
+MEDIA_BEGIN
+
+MEDIA_END
+
+#endif
