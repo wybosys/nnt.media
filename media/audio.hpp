@@ -65,6 +65,10 @@ typedef struct
     int copy_comments;
 } oe_enc_opt;
 
+extern void CleanupRecorder();
+
+extern int InitRecorder(const char* path);
+
 MEDIA_END
 
 #endif
