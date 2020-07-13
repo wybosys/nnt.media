@@ -69,6 +69,8 @@ extern void CleanupRecorder();
 
 extern int InitRecorder(const char* path);
 
+extern int WriteFrame(uint8_t* framePcmBytes, unsigned int frameByteCount);
+
 MEDIA_END
 
 #endif

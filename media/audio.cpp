@@ -440,4 +440,109 @@ int InitRecorder(const char* path)
     return 1;
 }
 
+int WriteFrame(uint8_t* framePcmBytes, unsigned int frameByteCount)
+{
+    int cur_frame_size = frame_size;
+    _packetId++;
+
+    opus_int32 nb_samples = frameByteCount / 2;
+    total_samples += nb_samples;
+    if (nb_samples < frame_size)
+    {
+        op.e_o_s = 1;
+    }
+    else
+    {
+        op.e_o_s = 0;
+    }
+
+    int nbBytes = 0;
+
+    if (nb_samples != 0)
+    {
+        uint8_t* paddedFrameBytes = framePcmBytes;
+        int freePaddedFrameBytes = 0;
+
+        if (nb_samples < cur_frame_size)
+        {
+            paddedFrameBytes = (uint8_t*)malloc(cur_frame_size * 2);
+            freePaddedFrameBytes = 1;
+            memcpy(paddedFrameBytes, framePcmBytes, frameByteCount);
+            memset(paddedFrameBytes + nb_samples * 2, 0, cur_frame_size * 2 - nb_samples * 2);
+        }
+
+        nbBytes = opus_encode(_encoder,
+            (opus_int16*)paddedFrameBytes,
+            cur_frame_size,
+            _packet,
+            max_frame_bytes / 10);
+        if (freePaddedFrameBytes)
+        {
+            free(paddedFrameBytes);
+            paddedFrameBytes = NULL;
+        }
+
+        if (nbBytes < 0)
+        {
+            return 0;
+        }
+
+        enc_granulepos += cur_frame_size * 48000 / coding_rate;
+        size_segments = (nbBytes + 255) / 255;
+        min_bytes = ::std::min<int>(nbBytes, min_bytes);
+    }
+
+    while ((((size_segments <= 255) && (last_segments + size_segments > 255))
+        || (enc_granulepos - last_granulepos > max_ogg_delay))
+        && ogg_stream_flush_fill(&os, &og, 255 * 255))
+    {
+        if (ogg_page_packets(&og) != 0)
+        {
+            last_granulepos = ogg_page_granulepos(&og);
+        }
+
+        last_segments -= og.header[26];
+        int writtenPageBytes = writeOggPage(&og, _fileOs);
+        if (writtenPageBytes != og.header_len + og.body_len)
+        {
+            return 0;
+        }
+        bytes_written += writtenPageBytes;
+        pages_out++;
+    }
+
+    op.packet = (unsigned char*)_packet;
+    op.bytes = nbBytes;
+    op.b_o_s = 0;
+    op.granulepos = enc_granulepos;
+    if (op.e_o_s)
+    {
+        op.granulepos = ((total_samples * 48000 + rate - 1) / rate) + header.preskip;
+    }
+    op.packetno = 2 + _packetId;
+    ogg_stream_packetin(&os, &op);
+    last_segments += size_segments;
+
+    while ((op.e_o_s
+        || (enc_granulepos + (frame_size * 48000 / coding_rate) - last_granulepos > max_ogg_delay)
+        || (last_segments >= 255)) ? ogg_stream_flush_fill(&os, &og, 255 * 255)
+                                   : ogg_stream_pageout_fill(&os, &og, 255 * 255))
+    {
+        if (ogg_page_packets(&og) != 0)
+        {
+            last_granulepos = ogg_page_granulepos(&og);
+        }
+        last_segments -= og.header[26];
+        int writtenPageBytes = writeOggPage(&og, _fileOs);
+        if (writtenPageBytes != og.header_len + og.body_len)
+        {
+            return 0;
+        }
+        bytes_written += writtenPageBytes;
+        pages_out++;
+    }
+
+    return 1;
+}
+
 MEDIA_END
